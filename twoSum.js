@@ -35,10 +35,10 @@ const twoSum = (nums, target) => {
     //   check if the number we're looking exists in storage. if it exists, return that particular element and its index.
     if (storage[num] !== undefined) {
       return [storage[num], index];
+      // if it doesn't exist, add below value to storage.
     } else storage[target - num] = index;
   }
 
-  // if it doesn't exist, add below value to storage.
   // example
   // nums = [2, 7, 11, 15];
   // target = 9;
