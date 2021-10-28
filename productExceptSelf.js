@@ -18,35 +18,66 @@
 // leftProduct =  [ 1, 1, 2, 6];
 // rightProduct = [ 24, 12 , 4 , 1];
 // solution = [24, 12, 8, 6]
+// let productExceptSelf = function (nums) {
+// let leftProduct = [];
+// let rightProduct = [];
+// let solution = [];
+
+// populate leftProduct. O(n)
+//   for (let i = 0; i < nums.length; i++) {
+//     if (leftProduct.length === 0) {
+//       leftProduct.push(1);
+//     } else {
+//       leftProduct.push(leftProduct[i - 1] * nums[i - 1]);
+//     }
+//   }
+
+// populate rightProduct. O(n)
+//   for (let i = nums.length - 1; i >= 0; i--) {
+//     if (rightProduct.length === 0) {
+//       rightProduct.push(1);
+//     } else {
+//       rightProduct.unshift(rightProduct[0] * nums[i + 1]);
+//     }
+//   }
+
+// populate solution. O(n)
+//   for (let i = 0; i < leftProduct.length; i++) {
+//     solution.push(leftProduct[i] * rightProduct[i]);
+//   }
+
+//   return solution;
+// };
+
+// nums = [1, 2, 3, 4];
+// console.log(productExceptSelf(nums));
+
+// another solution
 let productExceptSelf = function (nums) {
-  let leftProduct = [];
-  let rightProduct = [];
-  let solution = [];
+  const left = new Array(nums.length).fill(0);
+  left[0] = 1;
+  //   console.log("left:", left);
 
-  // populate leftProduct.
+  const right = new Array(nums.length).fill(0);
+  right[right.length - 1] = 1;
+  //   console.log("right:", right);
+
+  for (let i = 1; i < nums.length; i++) {
+    left[i] = nums[i - 1] * left[i - 1];
+  }
+  //   console.log("left:", left);
+
+  for (let i = right.length - 2; i >= 0; i--) {
+    right[i] = nums[i + 1] * right[i + 1];
+  }
+
+  //   console.log("right:", right);
+
   for (let i = 0; i < nums.length; i++) {
-    if (leftProduct.length === 0) {
-      leftProduct.push(1);
-    } else {
-      leftProduct.push(leftProduct[i - 1] * nums[i - 1]);
-    }
+    nums[i] = left[i] * right[i];
   }
 
-  // populate rightProduct.
-  for (let i = nums.length - 1; i >= 0; i--) {
-    if (rightProduct.length === 0) {
-      rightProduct.push(1);
-    } else {
-      rightProduct.unshift(rightProduct[0] * nums[i + 1]);
-    }
-  }
-
-  // populate solution.
-  for (let i = 0; i < leftProduct.length; i++) {
-    solution.push(leftProduct[i] * rightProduct[i]);
-  }
-
-  return solution;
+  return nums;
 };
 
 nums = [1, 2, 3, 4];
