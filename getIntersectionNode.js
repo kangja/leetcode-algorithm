@@ -6,7 +6,7 @@
 // let headA = [4,1,8,4,5];
 // lead headB = [5,6,1,8,4,5];
 
-// loop through 2 nodes in javascript and if there is a match, return that value.
+// loop through 2 linedlist/nodes in javascript and if there is a match, return that value.
 
 let getIntersectionNode = function (headA, headB) {
   for (let i = 0; i < headA.length; i++) {

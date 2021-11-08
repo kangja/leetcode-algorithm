@@ -133,24 +133,47 @@ let numDecodings = function (s) {
 
     if (oneDigit >= 1) {
       dp[i] = dp[i] + dp[i - 1];
+      //   when i = 2
       //   d[2] = dp[2] + dp[2-1]
       //   d[2] = dp[2] + dp[1]
       //   d[2]    = 0 + 1
-      //   [1, 1, 1, 0];
+      //   current dp: [1, 1, 1, 0];
       console.log("first dp[i]:", dp[i]);
       //   first dp[i]: 1
+
+      //   --------------
+      //   when i = 3;
+      //   d[3] = dp[3] + dp[2];
+      //   d[3]    = 0 + 2
+      //   current dp: [1,1,2,2];
     }
 
     if (twoDigit >= 10 && twoDigit <= 26) {
-      //   dp[2] = dp[2] + dp[0];
-      // 2    =  1 + 1
+      // when i = 2
+      // dp[2] = dp[2] + dp[0];
+      //       =  1    +    1
       dp[i] = dp[i] + dp[i - 2];
       console.log("second dp[i]:", dp[i]);
-      //   second dp[i]: 2
+      //   second dp[2]: 2
+      //   current dp: [1, 1, 2, 0];
+      //   --------------
+
+      //   when i = 3
+      //   dp[i] = dp[3] + dp[i - 2];
+      //   dp[i] = dp[3] + dp[3 - 2];
+      //   dp[i] = dp[3] + dp[1];
+      //   dp[3] = 2 + 1
+      //   dp[3] = 3
+      //   current dp: [1,1,2,3];
+      //
     }
   }
-  console.log("dp[s.length]:", dp[s.length]);
-  //   return dp[s.length];
+  console.log("final dp:", dp);
+
+  //   when s = 123
+  //   dp[s.length] = dp[3];
+  console.log(dp[3]);
+  //   console.log("dp[s.length]:", dp[s.length]);
 };
 
 console.log(numDecodings("123"));
