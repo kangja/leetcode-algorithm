@@ -43,85 +43,114 @@
 
 // split "s" by 2 digits and check if each digit is between 1 and 26 inclusive.
 
-let numDecodings = function (s) {
-  let emptyArray = [];
-
-  let splitByOneDigit = s.split("");
-  console.log("splitByOneDigit:", splitByOneDigit);
-  // [ '1', '0', '0' ]
-
-  if (
-    splitByOneDigit.every((el) => el >= 1) &&
-    splitByOneDigit.every((el) => el <= 26)
-  ) {
-    emptyArray.push(splitByOneDigit);
-  }
-
-  let splitByFirstTwoDigits = s.match(/.{1,2}/g);
-  console.log("splitByFirstTwoDigits:", splitByFirstTwoDigits);
-
-  console.log("splitByFirstTwoDigits:", splitByFirstTwoDigits[0][0]);
-
-  if (
-    splitByFirstTwoDigits.every((el) => el >= 1) &&
-    splitByFirstTwoDigits.every((el) => el <= 26) &&
-    splitByFirstTwoDigits[0][0] !== "0"
-  ) {
-    emptyArray.push(splitByFirstTwoDigits);
-  }
-
-  //   how to convert [226] into
-  //   ["2", "26"]
-
-  let splitByLastTwoDigits = [s.substr(0, 1), s.substr(1)];
-  console.log("splitByLastTwoDigits:", splitByLastTwoDigits);
-
-  if (
-    splitByLastTwoDigits.every((el) => el >= 1) &&
-    splitByLastTwoDigits.every((el) => el <= 26)
-  ) {
-    emptyArray.push(splitByLastTwoDigits);
-  }
-
-  //   get rid of duplicate.
-  //   emptyArray: [ [ '1', '2' ], [ '12' ], [ '1', '2' ] ]
-  let uniqueArray = [...new Set(emptyArray.map((e) => JSON.stringify(e)))].map(
-    (e) => JSON.parse(e)
-  );
-  console.log("uniqueArray:", uniqueArray);
-  return uniqueArray.length;
-};
-
-let s = "1201234";
-console.log(numDecodings(s));
-
-// solution 2
 // let numDecodings = function (s) {
-//   let dp = new Array(s.length + 1).fill(0);
-//   console.log(dp);
+//   let emptyArray = [];
 
-//   dp[0] = 1; //empty string
+//   let splitByOneDigit = s.split("");
+//   console.log("splitByOneDigit:", splitByOneDigit);
+//   // [ '1', '0', '0' ]
 
-//   dp[1] = s.charAt(0) == 0 ? 0 : 1;
-
-//   console.log(dp);
-
-//   for (let i = 2; i <= s.length; i++) {
-//     let oneDigit = +s.slice(i - 1, i);
-//     console.log("oneDigit:", oneDigit);
-
-//     let twoDigit = +s.slice(i - 2, i);
-//     console.log("oneDigit:", twoDigit);
-
-//     if (oneDigit >= 1) {
-//       dp[i] += dp[i - 1];
-//     }
-
-//     if (twoDigit >= 10 && twoDigit <= 26) {
-//       dp[i] += dp[i - 2];
-//     }
+//   if (
+//     splitByOneDigit.every((el) => el >= 1) &&
+//     splitByOneDigit.every((el) => el <= 26)
+//   ) {
+//     emptyArray.push(splitByOneDigit);
 //   }
-//   return dp[s.length];
+
+//   let splitByFirstTwoDigits = s.match(/.{1,2}/g);
+//   console.log("splitByFirstTwoDigits:", splitByFirstTwoDigits);
+
+//   console.log("splitByFirstTwoDigits:", splitByFirstTwoDigits[0][0]);
+
+//   if (
+//     splitByFirstTwoDigits.every((el) => el >= 1) &&
+//     splitByFirstTwoDigits.every((el) => el <= 26) &&
+//     splitByFirstTwoDigits[0][0] !== "0"
+//   ) {
+//     emptyArray.push(splitByFirstTwoDigits);
+//   }
+
+//   //   how to convert [226] into
+//   //   ["2", "26"]
+
+//   let splitByLastTwoDigits = [s.substr(0, 1), s.substr(1)];
+//   console.log("splitByLastTwoDigits:", splitByLastTwoDigits);
+
+//   if (
+//     splitByLastTwoDigits.every((el) => el >= 1) &&
+//     splitByLastTwoDigits.every((el) => el <= 26)
+//   ) {
+//     emptyArray.push(splitByLastTwoDigits);
+//   }
+
+//   //   get rid of duplicate.
+//   //   emptyArray: [ [ '1', '2' ], [ '12' ], [ '1', '2' ] ]
+//   let uniqueArray = [...new Set(emptyArray.map((e) => JSON.stringify(e)))].map(
+//     (e) => JSON.parse(e)
+//   );
+//   console.log("uniqueArray:", uniqueArray);
+//   return uniqueArray.length;
 // };
 
-// console.log(numDecodings("123"));
+// let s = "1";
+// console.log(numDecodings(s));
+
+// solution 2
+let numDecodings = function (s) {
+  let dp = new Array(s.length + 1).fill(0);
+  console.log("dp:", dp);
+
+  dp[0] = 1; //empty string
+  console.log("dp after the change1:", dp);
+
+  dp[1] = s.charAt(0) == 0 ? 0 : 1;
+
+  console.log("dp after the change2:", dp);
+
+  for (let i = 2; i <= s.length; i++) {
+    let oneDigit = s.slice(i - 1, i);
+    // s = "123";
+    // when i = 2
+    // s.slice(1, 2);
+    console.log("oneDigit:", oneDigit);
+    // oneDigit: 2
+
+    // when i = 3
+    // s.slice(2, 3)
+    // oneDigit: 3
+    // -------------------------------
+
+    let twoDigit = s.slice(i - 2, i);
+    // s = "123"
+    // when i = 2
+    // s.slice(0, 2)
+    console.log("twoDigit:", twoDigit);
+    // twoDigit: 12;
+
+    // when i = 3
+    // s.slice(1, 3)
+    // twoDigit: 23
+
+    if (oneDigit >= 1) {
+      dp[i] = dp[i] + dp[i - 1];
+      //   d[2] = dp[2] + dp[2-1]
+      //   d[2] = dp[2] + dp[1]
+      //   d[2]    = 0 + 1
+      //   [1, 1, 1, 0];
+      console.log("first dp[i]:", dp[i]);
+      //   first dp[i]: 1
+    }
+
+    if (twoDigit >= 10 && twoDigit <= 26) {
+      //   dp[2] = dp[2] + dp[0];
+      // 2    =  1 + 1
+      dp[i] = dp[i] + dp[i - 2];
+      console.log("second dp[i]:", dp[i]);
+      //   second dp[i]: 2
+    }
+  }
+  console.log("dp[s.length]:", dp[s.length]);
+  //   return dp[s.length];
+};
+
+console.log(numDecodings("123"));
