@@ -83,3 +83,37 @@
 // console.log(climbStairs(n));
 
 // another solution
+
+// let climbStairs = function (n) {
+//   let countingFunc = function (stairsRemaining, savedResults) {
+//     if (stairsRemaining < 0) {
+//       return 0;
+//     }
+
+//     if (stairsRemaining === 0) {
+//       return 1;
+//     }
+
+//     if (savedResults[stairsRemaining]) {
+//       return savedResults[stairsRemaining];
+//     }
+
+//     savedResults[stairsRemaining] =
+//       countingFunc(stairsRemaining - 1, savedResults) +
+//       countingFunc(stairsRemaining - 2, savedResults);
+
+//     return savedResults[stairsRemaining];
+//   };
+
+//   return countingFunc(n, {});
+// };
+
+// another solution
+let climbStairs = function (n) {
+  const memo = [1, 1, 2];
+  for (let i = 3; i <= n; i++) {
+    memo[i] = memo[i - 1] + memo[i - 2];
+  }
+  return memo[n];
+};
+console.log(climbStairs(4));
