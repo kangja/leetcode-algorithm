@@ -109,11 +109,38 @@
 // };
 
 // another solution
+// let climbStairs = function (n) {
+//   const memo = [1, 1, 2];
+//   for (let i = 3; i <= n; i++) {
+//     memo[i] = memo[i - 1] + memo[i - 2];
+//   }
+//   return memo[n];
+// };
+// console.log(climbStairs(4));
+
+//another solution
+
 let climbStairs = function (n) {
-  const memo = [1, 1, 2];
-  for (let i = 3; i <= n; i++) {
-    memo[i] = memo[i - 1] + memo[i - 2];
+  if (n === 1) {
+    return 1;
+  } else if (n === 2) {
+    return 2;
+  } else {
+    let waysToClimb1 = 1;
+    let waystoClimb2 = 2;
+    let waystoClimb;
+    let i = 1;
+
+    while (n - 1 > i) {
+      waystoClimb = waystoClimb2 + waysToClimb1;
+      waysToClimb1 = waystoClimb2;
+      waystoClimb2 = waystoClimb;
+      i++;
+    }
+
+    return waystoClimb;
   }
-  return memo[n];
 };
-console.log(climbStairs(4));
+
+let n = 4;
+console.log(climbStairs(n));
